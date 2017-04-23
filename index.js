@@ -1,9 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { createStore, compose, applyMiddleware } from 'redux'
-import Counter from './components/Counter'
+import { Provider } from 'react-redux'
 import App from './components/App'
-import counter from './reducers'
+import { initialState, gameReducer } from './gameReducer'
 import scuttlebutt, { devToolsStateSanitizer } from 'redux-scuttlebutt'
 
 const devToolsConfig = {
@@ -17,13 +17,15 @@ const enhancer = compose(
     : f => f
 )
 
-const store = createStore(counter, undefined, enhancer)
+const store = createStore(gameReducer, initialState, enhancer)
 
 const rootEl = document.getElementById('root')
 
-function render() {
+function render () {
   ReactDOM.render(
-    <App store={ store } />,
+    <Provider store={store}>
+      <App />
+    </Provider>,
     rootEl
   )
 }
